@@ -1,39 +1,10 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useScroll, Text, Float, Stars, MeshDistortMaterial, ContactShadows, Environment, Scroll } from '@react-three/drei';
+import { useScroll, Text, Stars, ContactShadows, Environment, Scroll } from '@react-three/drei';
 import { EffectComposer, Bloom, DepthOfField, Vignette } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { easing } from 'maath';
-
-// Floating abstract "car" geometry placeholder
-function AbstractCarShape(props: any) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.2;
-      meshRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-    }
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5}>
-      <mesh ref={meshRef} {...props}>
-        <icosahedronGeometry args={[1, 2]} />
-        <MeshDistortMaterial 
-          color="#111" 
-          envMapIntensity={2} 
-          clearcoat={1} 
-          clearcoatRoughness={0.1} 
-          metalness={0.9} 
-          roughness={0.2} 
-          distort={0.2} 
-          speed={2} 
-        />
-      </mesh>
-    </Float>
-  );
-}
+import ProceduralWheel from './ProceduralWheel';
 
 // Drifting dust particles for volumetric feel
 function DustMotes() {
@@ -56,7 +27,7 @@ function DustMotes() {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} args={[positions, 3]} />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial size={0.05} color="#d4af37" transparent opacity={0.4} sizeAttenuation depthWrite={false} />
     </points>
@@ -140,21 +111,21 @@ export default function Scene() {
       {/* 3D Objects scattered in space */}
       
       {/* Object 1: The Core (at z=0) */}
-      <AbstractCarShape position={[0, 0, 0]} scale={2} />
+      <ProceduralWheel position={[0, 0, 0]} scale={2} />
       <ContactShadows position={[0, -2, 0]} opacity={0.5} scale={10} blur={2} far={4} color="#000" />
-      <Text position={[0, 3, 0]} fontSize={0.5} font="/fonts/Inter-Black.woff" letterSpacing={0.2} color="#fff">
+      <Text position={[0, 3, 0]} fontSize={0.5} letterSpacing={0.2} color="#fff">
         THE APEX
       </Text>
 
       {/* Object 2: Engineering Nodes (at z=-10) */}
-      <AbstractCarShape position={[-4, 0, -10]} scale={1} />
-      <AbstractCarShape position={[4, 0, -10]} scale={1} />
+      <ProceduralWheel position={[-4, 0, -10]} scale={1} />
+      <ProceduralWheel position={[4, 0, -10]} scale={1} />
       <Text position={[0, 0, -12]} fontSize={2} fillOpacity={0.1} outlineWidth={0.02} outlineColor="#d4af37">
         AERODYNAMICS
       </Text>
 
       {/* Object 3: Deep Void (at z=-20) */}
-      <AbstractCarShape position={[0, -2, -20]} scale={3} />
+      <ProceduralWheel position={[0, -2, -20]} scale={3} />
       <Text position={[0, 4, -20]} fontSize={1} color="#ffffff">
         MASTER LEVEL
       </Text>
