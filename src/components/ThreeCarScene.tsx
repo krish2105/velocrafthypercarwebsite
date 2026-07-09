@@ -1,36 +1,7 @@
-import { Suspense, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, MeshDistortMaterial, Float, ContactShadows } from '@react-three/drei';
-import * as THREE from 'three';
-
-function AbstractHypercarShape() {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.2;
-      meshRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-    }
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-      <mesh ref={meshRef} position={[0, 0, 0]} scale={2.5}>
-        <icosahedronGeometry args={[1, 1]} />
-        <MeshDistortMaterial 
-          color="#111" 
-          envMapIntensity={2} 
-          clearcoat={1} 
-          clearcoatRoughness={0.1} 
-          metalness={0.9} 
-          roughness={0.2} 
-          distort={0.4} 
-          speed={2} 
-        />
-      </mesh>
-    </Float>
-  );
-}
+import { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
+import ProceduralWheel from './ProceduralWheel';
 
 export default function ThreeCarScene() {
   return (
@@ -47,15 +18,16 @@ export default function ThreeCarScene() {
 
       {/* WebGL Canvas */}
       <div className="w-full h-[60vh] max-w-6xl mx-auto cursor-grab active:cursor-grabbing relative z-10 border border-brand-platinum/10 bg-brand-carbon/30 backdrop-blur-sm rounded-xl overflow-hidden">
-        <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+        <Canvas camera={{ position: [0, 2, 6], fov: 45 }}>
+          <color attach="background" args={['#050505']} />
           <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1} color="#ffffff" />
-          <directionalLight position={[-10, -10, -5]} intensity={0.5} color="#38bdf8" />
+          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
           
           <Suspense fallback={null}>
-            <AbstractHypercarShape />
+            <ProceduralWheel scale={1.2} />
+            <ContactShadows position={[0, -1.8, 0]} opacity={0.7} scale={10} blur={2.5} far={4} color="#000" />
             <Environment preset="city" />
-            <ContactShadows position={[0, -2.5, 0]} opacity={0.5} scale={10} blur={2} far={4} color="#000" />
+            <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} maxPolarAngle={Math.PI / 2 + 0.1} minPolarAngle={Math.PI / 4} />
           </Suspense>
         </Canvas>
         
