@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { useAudio } from '../hooks/useAudio';
 
 const navLinks = [
   { name: 'Models', href: '#models' },
@@ -12,6 +13,7 @@ const navLinks = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { playHoverSound, playClickSound } = useAudio();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,12 +26,17 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass py-4' : 'bg-transparent py-6'
+        isScrolled ? 'bg-brand-black/80 backdrop-blur-md py-4 border-b border-white/5' : 'bg-transparent py-6'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
         {/* Logo */}
-        <a href="/" className="relative group flex items-center gap-2 z-50">
+        <a 
+          href="/" 
+          className="relative group flex items-center gap-2 z-50"
+          onMouseEnter={playHoverSound}
+          onClick={playClickSound}
+        >
           <span className="font-heading font-bold text-2xl tracking-[0.2em] text-white">
             VELOCRAFT
           </span>
@@ -42,6 +49,8 @@ export default function Navbar() {
             <a
               key={link.name}
               href={link.href}
+              onMouseEnter={playHoverSound}
+              onClick={playClickSound}
               className="text-sm font-medium tracking-wider text-gray-300 hover:text-white uppercase transition-colors"
             >
               {link.name}
@@ -53,6 +62,8 @@ export default function Navbar() {
         <div className="hidden md:block">
           <a
             href="#contact"
+            onMouseEnter={playHoverSound}
+            onClick={playClickSound}
             className="px-6 py-2.5 bg-brand-platinum text-brand-black font-semibold tracking-wider text-sm hover:bg-white transition-all shadow-[0_0_20px_rgba(215,217,220,0.3)] hover:shadow-[0_0_30px_rgba(215,217,220,0.6)] rounded-sm"
           >
             Reserve Yours
