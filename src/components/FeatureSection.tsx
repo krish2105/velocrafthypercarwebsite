@@ -19,7 +19,7 @@ export default function FeatureSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => {
             // Dynamically get the icon component
-            const IconComponent = Icons[feature.icon as keyof typeof Icons] as React.ElementType || Icons.Activity;
+            const IconComponent = (Icons as any)[feature.icon] || Icons.Activity;
             
             return (
               <motion.div

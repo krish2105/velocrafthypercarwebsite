@@ -10,6 +10,9 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        maximumFileSizeToCacheInBytes: 4194304
+      },
       manifest: {
         name: 'VELOCRAFT Supercars',
         short_name: 'Velocraft',
