@@ -1,48 +1,23 @@
-import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Lenis from 'lenis';
+import { Canvas } from '@react-three/fiber';
+import { ScrollControls } from '@react-three/drei';
+import Scene from './components/Scene';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
 import CustomCursor from './components/CustomCursor';
 import Preloader from './components/Preloader';
 
-// Main Application Component
 function App() {
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-    });
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
-
   return (
-    <div className="min-h-screen flex flex-col bg-brand-black text-brand-platinum">
-      <CustomCursor />
+    <div className="w-screen h-screen overflow-hidden bg-brand-black">
       <Preloader />
+      <CustomCursor />
       <Navbar />
-      <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
-      </main>
-      <Footer />
+
+      <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
+        {/* We use 3 pages here to match the 3 objects spread out across the Z axis */}
+        <ScrollControls pages={3} damping={0.25}>
+          <Scene />
+        </ScrollControls>
+      </Canvas>
     </div>
   );
 }
