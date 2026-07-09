@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="800" viewBox="0 0 2000 800">
+  <defs>
+    <radialGradient id="g" cx="22%" cy="50%" r="35%"><stop offset="0%" stop-color="#38bdf8" stop-opacity="0.42"/><stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/></radialGradient>
+    <linearGradient id="m" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5f7fa"/><stop offset="1" stop-color="#9ca3af"/></linearGradient>
+  </defs>
+  <rect width="2000" height="800" fill="transparent"/>
+  <circle cx="220" cy="400" r="360" fill="url(#g)"/>
+  <polygon points="86,170 176,170 294,498 415,170 505,170 333,630 255,630" fill="url(#m)"/>
+  <polygon points="178,214 230,214 303,428 377,214 430,214 325,566 280,566" fill="#080a0c"/>
+  <line x1="300" y1="496" x2="420" y2="170" stroke="#38bdf8" stroke-width="20" stroke-linecap="round"/>
+  <line x1="256" y1="628" x2="332" y2="628" stroke="#c9a227" stroke-width="16" stroke-linecap="round"/>
+  <text x="610" y="375" font-family="Arial, Helvetica, sans-serif" font-size="156" font-weight="800" letter-spacing="8" fill="#f2f4f6">VELOCRAFT</text>
+  <text x="620" y="465" font-family="Arial, Helvetica, sans-serif" font-size="38" letter-spacing="9" fill="#b9bec4">ENGINEERED BEYOND SPEED</text>
+  <line x1="620" y1="505" x2="1370" y2="505" stroke="#38bdf8" stroke-width="4" opacity="0.7"/>
+</svg>
